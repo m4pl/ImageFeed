@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04FA78FD2DA54E1D00883875 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FA78FC2DA54E1800883875 /* ProfileViewController.swift */; };
+		04FA79002DA55EF000883875 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FA78FF2DA55EEF00883875 /* ProfileViewModel.swift */; };
 		B56D5C912DA2D2E800A7A352 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56D5C902DA2D2E800A7A352 /* ImagesListCell.swift */; };
 		B57326E42B7A81680001D678 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57326E32B7A81680001D678 /* AppDelegate.swift */; };
 		B57326E62B7A81680001D678 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57326E52B7A81680001D678 /* SceneDelegate.swift */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04FA78FC2DA54E1800883875 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		04FA78FF2DA55EEF00883875 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B56D5C902DA2D2E800A7A352 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		B57326E02B7A81680001D678 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B57326E32B7A81680001D678 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +49,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04FA78FA2DA54D8700883875 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				04FA78FE2DA55EE400883875 /* Presenter */,
+				04FA78FB2DA54DAA00883875 /* View */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		04FA78FB2DA54DAA00883875 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04FA78FC2DA54E1800883875 /* ProfileViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		04FA78FE2DA55EE400883875 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				04FA78FF2DA55EEF00883875 /* ProfileViewModel.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		B56D5C922DA2D31100A7A352 /* ImagesList */ = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +103,7 @@
 		B57326E22B7A81680001D678 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				04FA78FA2DA54D8700883875 /* Profile */,
 				B5B8BC042DA2F547008388E0 /* LaunchScreen */,
 				B56D5C922DA2D31100A7A352 /* ImagesList */,
 				B57326E32B7A81680001D678 /* AppDelegate.swift */,
@@ -193,9 +223,11 @@
 				B5B8BBF92DA2F15F008388E0 /* ImageCellViewModel.swift in Sources */,
 				B5B8BBFB2DA2F17E008388E0 /* ImageModel.swift in Sources */,
 				B57326E82B7A81680001D678 /* ImagesListViewController.swift in Sources */,
+				04FA79002DA55EF000883875 /* ProfileViewModel.swift in Sources */,
 				B56D5C912DA2D2E800A7A352 /* ImagesListCell.swift in Sources */,
 				B57326E42B7A81680001D678 /* AppDelegate.swift in Sources */,
 				B5B8BBFD2DA2F1D1008388E0 /* ImagesListPresenter.swift in Sources */,
+				04FA78FD2DA54E1D00883875 /* ProfileViewController.swift in Sources */,
 				B57326E62B7A81680001D678 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
