@@ -55,4 +55,8 @@ final class ImagesListPresenter {
     var imagesCount: Int {
         images.count
     }
+    
+    func image(at index: Int) -> UIImage? {
+        return UIImage(named: images[index].imageName)
+    }
 }
