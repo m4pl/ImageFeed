@@ -8,10 +8,6 @@
 import Foundation
 import UIKit
 
-protocol ImagesListView: AnyObject {
-    func updateImages()
-}
-
 final class ImagesListPresenter {
 
     private weak var view: ImagesListView?

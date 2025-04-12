@@ -175,7 +175,7 @@ final class ProfileViewController: UIViewController {
             avatar: UIImage(named: "avatar"),
             name: "Екатерина Новикова",
             login: "@ekaterina_nov",
-            description: "Hello, World!",
+            description: "Hello, World!"
         )
 
         avatarImage = mockProfile.avatar
