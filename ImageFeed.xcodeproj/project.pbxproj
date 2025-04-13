@@ -35,6 +35,7 @@
 		B5C8870A2DAC4633007E5F7D /* URLSession+objectTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C887092DAC4633007E5F7D /* URLSession+objectTask.swift */; };
 		B5C8870D2DAC4E60007E5F7D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B5C8870C2DAC4E60007E5F7D /* Kingfisher */; };
 		B5C887102DAC53E5007E5F7D /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = B5C8870F2DAC53E5007E5F7D /* SwiftKeychainWrapper */; };
+		B5C887132DAC55F2007E5F7D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C887122DAC55F2007E5F7D /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		B5B8BC162DAC1E70008388E0 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		B5B8BC1B2DAC32AB008388E0 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		B5C887092DAC4633007E5F7D /* URLSession+objectTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+objectTask.swift"; sourceTree = "<group>"; };
+		B5C887122DAC55F2007E5F7D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,12 +95,11 @@
 		04F443C62DA94D4E003BB730 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				B5C887112DAC55BC007E5F7D /* TabBar */,
 				B5B8BC0B2DAAB0AF008388E0 /* SplashView */,
 				04F443C52DA94D48003BB730 /* Auth */,
 				04FA79012DA56B5200883875 /* SingleImage */,
-				04FA78FA2DA54D8700883875 /* Profile */,
 				B5B8BC042DA2F547008388E0 /* LaunchScreen */,
-				B56D5C922DA2D31100A7A352 /* ImagesList */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -274,6 +275,16 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		B5C887112DAC55BC007E5F7D /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				B56D5C922DA2D31100A7A352 /* ImagesList */,
+				04FA78FA2DA54D8700883875 /* Profile */,
+				B5C887122DAC55F2007E5F7D /* TabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -360,6 +371,7 @@
 				B5C8870A2DAC4633007E5F7D /* URLSession+objectTask.swift in Sources */,
 				B5B8BBFB2DA2F17E008388E0 /* ImageModel.swift in Sources */,
 				B57326E82B7A81680001D678 /* ImagesListViewController.swift in Sources */,
+				B5C887132DAC55F2007E5F7D /* TabBarController.swift in Sources */,
 				B5B8BC0D2DAAB0C6008388E0 /* SplashViewController.swift in Sources */,
 				04FD6EE72DA6B97900F6682F /* UIColor+AppColors.swift in Sources */,
 				B56D5C912DA2D2E800A7A352 /* ImagesListCell.swift in Sources */,
