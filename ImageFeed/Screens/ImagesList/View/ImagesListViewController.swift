@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ImagesListView: AnyObject {
+    func updateImages()
+}
+
 final class ImagesListViewController: UIViewController, ImagesListView {
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
