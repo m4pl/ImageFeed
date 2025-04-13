@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
 
@@ -18,14 +19,12 @@ final class SplashViewController: UIViewController {
         return imageView
     }()
 
-    private let oauth2TokenStorage = OAuth2TokenStorage()
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupUI()
 
-        if let token = oauth2TokenStorage.token {
-            switchToTabBarController()
+        if let token = Oauth2TokenStorage.shared.token {
+            fetchProfile(token)
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
         }
@@ -48,8 +47,6 @@ final class SplashViewController: UIViewController {
         ].forEach {
             view.addSubview($0)
         }
-
-        let safeArea = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
             logoImageView.centerYAnchor.constraint(
@@ -92,14 +89,47 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
 
     private func fetchOAuthToken(_ code: String) {
+        UIBlockingProgressHUD.show()
+
         OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+
             switch result {
-            case .success:
-                self?.switchToTabBarController()
+            case .success(let token):
+                self?.fetchProfile(token)
             case .failure:
-                // TODO [Sprint 11]
+                self?.showLoginErrorAlert()
                 break
             }
         }
+    }
+
+    private func fetchProfile(_ token: String) {
+        UIBlockingProgressHUD.show()
+
+        ProfileService.shared.fetchProfile(token) { [weak self] result in
+            DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
+
+                switch result {
+                case .success(let profile):
+                    ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in }
+                    self?.switchToTabBarController()
+                case .failure:
+                    self?.showLoginErrorAlert()
+                    break
+                }
+            }
+        }
+    }
+
+    private func showLoginErrorAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Ок", style: .default))
+        present(alert, animated: true)
     }
 }

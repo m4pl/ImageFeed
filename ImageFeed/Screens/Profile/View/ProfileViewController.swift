@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
 
@@ -27,14 +28,14 @@ final class ProfileViewController: UIViewController {
         }
     }
 
-    var descriptionText: String = "" {
+    var descriptionText: String? = "" {
         didSet {
             descriptionLabel.text = descriptionText
         }
     }
 
     private let avatarImageView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(image: UIImage(named: "avatar_placeholder"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -78,10 +79,12 @@ final class ProfileViewController: UIViewController {
         return label
     }()
 
+    private var profileImageServiceObserver: NSObjectProtocol?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        configureWithMockData()
+        updateProfileDetails()
     }
 
     private func setupUI() {
@@ -169,19 +172,31 @@ final class ProfileViewController: UIViewController {
             ),
         ])
     }
-    
-    private func configureWithMockData() {
-        let mockProfile = ProfileViewModel(
-            avatar: UIImage(named: "avatar"),
-            name: "Екатерина Новикова",
-            login: "@ekaterina_nov",
-            description: "Hello, World!"
-        )
 
-        avatarImage = mockProfile.avatar
-        nameText = mockProfile.name
-        loginText = mockProfile.login
-        descriptionText = mockProfile.description
+    private func updateProfileDetails() {
+        guard let profile = ProfileService.shared.profile else { return }
+
+        nameText = profile.name
+        loginText = profile.loginName
+        descriptionText = profile.bio
+        updateAvatar()
+
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            self?.updateAvatar()
+        }
+    }
+
+    private func updateAvatar() {
+        guard
+            let avatarURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: avatarURL)
+        else { return }
+        
+        avatarImageView.kf.setImage(with: url)
     }
 
     @objc private func logoutButtonTapped(_ sender: UIButton) {

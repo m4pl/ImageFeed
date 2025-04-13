@@ -7,10 +7,20 @@
 
 import Foundation
 
+struct OAuthTokenResponseBody: Decodable {
+    let accessToken: String
+
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+    }
+}
+
+enum AuthServiceError: Error {
+    case invalidRequest
+}
+
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    private let oauth2TokenStorage = OAuth2TokenStorage()
-    private let decoder = JSONDecoder()
 
     private init() {}
 
@@ -18,7 +28,13 @@ final class OAuth2Service {
     private var lastCode: String?
 
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard lastCode != code else { return }
+        assert(Thread.isMainThread)
+
+        guard lastCode != code else {
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+
         task?.cancel()
         lastCode = code
 
@@ -28,19 +44,12 @@ final class OAuth2Service {
             return
         }
 
-        task = URLSession.shared.data(for: request) { result in
+        task = URLSession.shared.objectTask(for: request) { (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
-            case .success(let data):
-                do {
-                    let response = try self.decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    self.oauth2TokenStorage.token = response.accessToken
-                    completion(.success(response.accessToken))
-                } catch {
-                    print("Error: Failed to decode OAuthTokenResponseBody: \(error)")
-                    completion(.failure(error))
-                }
+            case .success(let response):
+                Oauth2TokenStorage.shared.token = response.accessToken
+                completion(.success(response.accessToken))
             case .failure(let error):
-                print("Error: Network request failed: \(error)")
                 completion(.failure(error))
             }
         }
@@ -66,13 +75,5 @@ final class OAuth2Service {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         return request
-    }
-}
-
-struct OAuthTokenResponseBody: Decodable {
-    let accessToken: String
-
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
     }
 }

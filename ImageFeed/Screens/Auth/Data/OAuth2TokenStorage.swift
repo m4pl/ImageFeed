@@ -7,8 +7,11 @@
 
 import Foundation
 
-class OAuth2TokenStorage {
-    
+final class Oauth2TokenStorage {
+    static let shared = Oauth2TokenStorage()
+
+    private init() {}
+
     private let tokenKey = "OAuth2TokenKey"
     private let defaults = UserDefaults.standard
 
