@@ -30,20 +30,12 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7DU-So-izl">
                                                     <rect key="frame" x="16" y="4" width="361" height="174"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="16"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
-                                                </imageView>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="u1H-cE-YQD" userLabel="Placeholder">
-                                                    <rect key="frame" x="155" y="53.666666666666657" width="83" height="75"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="75" id="J1x-P5-BbF"/>
-                                                        <constraint firstAttribute="width" constant="83" id="vgP-aM-T89"/>
-                                                    </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M48-Zg-9bJ" userLabel="Like Button">
                                                     <rect key="frame" x="333" y="4" width="44" height="44"/>
@@ -70,8 +62,6 @@
                                                 <constraint firstItem="M48-Zg-9bJ" firstAttribute="top" secondItem="7DU-So-izl" secondAttribute="top" id="JTu-gP-d6I"/>
                                                 <constraint firstAttribute="bottom" secondItem="7DU-So-izl" secondAttribute="bottom" constant="4" id="QZJ-Ew-MGh"/>
                                                 <constraint firstItem="stu-8g-vHK" firstAttribute="leading" secondItem="7DU-So-izl" secondAttribute="leading" constant="8" id="Rcf-HA-wPA"/>
-                                                <constraint firstItem="u1H-cE-YQD" firstAttribute="centerX" secondItem="f5b-ng-GrX" secondAttribute="centerX" id="WCX-8O-Ahj"/>
-                                                <constraint firstItem="u1H-cE-YQD" firstAttribute="centerY" secondItem="f5b-ng-GrX" secondAttribute="centerY" id="hEh-S2-3D9"/>
                                                 <constraint firstItem="7DU-So-izl" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="stu-8g-vHK" secondAttribute="trailing" constant="8" id="hT4-Ky-vwB"/>
                                                 <constraint firstItem="7DU-So-izl" firstAttribute="bottom" secondItem="stu-8g-vHK" secondAttribute="bottom" constant="8" id="iZ3-o4-22o"/>
                                                 <constraint firstAttribute="trailing" secondItem="7DU-So-izl" secondAttribute="trailing" constant="16" id="mPi-iL-YHm"/>
@@ -84,7 +74,6 @@
                                             <outlet property="cellImage" destination="7DU-So-izl" id="XWx-x4-A5z"/>
                                             <outlet property="dateLabel" destination="stu-8g-vHK" id="Ffh-Xh-MSZ"/>
                                             <outlet property="likeButton" destination="M48-Zg-9bJ" id="l59-qs-paV"/>
-                                            <outlet property="placeholder" destination="u1H-cE-YQD" id="Qdy-1M-tES"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -255,7 +244,6 @@
     </scenes>
     <resources>
         <image name="0" width="1600" height="1059"/>
-        <image name="image_placeholder" width="83" height="75"/>
         <image name="like_button_on" width="42" height="42"/>
         <image name="nav_back_button_white" width="24" height="24"/>
         <image name="share_button" width="50" height="50"/>
