@@ -64,6 +64,11 @@ final class ProfileService {
         task?.resume()
     }
 
+    func reset() {
+        self.profile = nil
+        self.task = nil
+    }
+
     private func makeProfileRequest(token: String) -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.unsplash.com/me")!)
         request.httpMethod = "GET"

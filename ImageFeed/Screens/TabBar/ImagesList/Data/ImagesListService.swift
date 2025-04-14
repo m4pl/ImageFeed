@@ -139,7 +139,14 @@ final class ImagesListService {
         
         changeLike?.resume()
     }
-    
+
+    func reset() {
+        self.photos = []
+        self.fetchPhotos = nil
+        self.changeLike = nil
+        self.lastLoadedPage = nil
+    }
+
     private func makeImagesListRequest(nextPage: Int) -> URLRequest? {
         guard let token = Oauth2TokenStorage.shared.token else {
             return nil

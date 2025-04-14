@@ -200,6 +200,6 @@ final class ProfileViewController: UIViewController {
     }
 
     @objc private func logoutButtonTapped(_ sender: UIButton) {
-        print("Logout tapped")
+        ProfileLogoutService.shared.logout()
     }
 }

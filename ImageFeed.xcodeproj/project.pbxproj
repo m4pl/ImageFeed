@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04A725302DAD025C00326BBF /* ImageCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A7252F2DAD025800326BBF /* ImageCellViewModel.swift */; };
+		04A9F1E22DAD558100722573 /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A9F1E12DAD557F00722573 /* ProfileLogoutService.swift */; };
 		04F443C42DA86F2C003BB730 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F443C32DA86F2C003BB730 /* Constants.swift */; };
 		04F443C82DA94D77003BB730 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F443C72DA94D75003BB730 /* AuthViewController.swift */; };
 		04F443CB2DA987DF003BB730 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F443CA2DA987DC003BB730 /* WebViewViewController.swift */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		04A725252DAD003700326BBF /* ImageFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A7252F2DAD025800326BBF /* ImageCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCellViewModel.swift; sourceTree = "<group>"; };
+		04A9F1E12DAD557F00722573 /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		04F443C32DA86F2C003BB730 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04F443C72DA94D75003BB730 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		04F443CA2DA987DC003BB730 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 		B5B8BC182DAC2272008388E0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				04A9F1E12DAD557F00722573 /* ProfileLogoutService.swift */,
 				B5B8BC162DAC1E70008388E0 /* ProfileService.swift */,
 				B5B8BC1B2DAC32AB008388E0 /* ProfileImageService.swift */,
 			);
@@ -451,6 +454,7 @@
 				B5B8BC0D2DAAB0C6008388E0 /* SplashViewController.swift in Sources */,
 				04FD6EE72DA6B97900F6682F /* UIColor+AppColors.swift in Sources */,
 				B56D5C912DA2D2E800A7A352 /* ImagesListCell.swift in Sources */,
+				04A9F1E22DAD558100722573 /* ProfileLogoutService.swift in Sources */,
 				B57326E42B7A81680001D678 /* AppDelegate.swift in Sources */,
 				04F443C42DA86F2C003BB730 /* Constants.swift in Sources */,
 				04FA79042DA56B6700883875 /* SingleImageViewController.swift in Sources */,
