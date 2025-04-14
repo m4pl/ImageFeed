@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class ImagesListPresenter {
-
+    
     private weak var view: ImagesListView?
     private let service = ImagesListService.shared
     private let dateFormatter: DateFormatter = {
@@ -18,30 +18,33 @@ final class ImagesListPresenter {
         formatter.timeStyle = .none
         return formatter
     }()
-
+    
     init(view: ImagesListView) {
         self.view = view
         observePhotoUpdates()
         service.fetchPhotosNextPage()
     }
-
+    
     private func observePhotoUpdates() {
         NotificationCenter.default.addObserver(
             forName: ImagesListService.didChangeNotification,
             object: nil,
             queue: .main
-        ) { [weak self] _ in
-            self?.view?.updateImages()
+        ) { [weak self] notification in
+            if let userInfo = notification.userInfo,
+               let value = userInfo["indexPaths"] as? [IndexPath] {
+                self?.view?.updateImages(indexPaths: value)
+            }
         }
     }
     
     var imagesCount: Int {
         service.photos.count
     }
-
+    
     func viewModel(for index: Int) -> ImageCellViewModel {
         let photo = service.photos[index]
-
+        
         return ImageCellViewModel(
             image: nil,
             dateText: formattedDate(photo.createdAt),
@@ -50,12 +53,12 @@ final class ImagesListPresenter {
             size: photo.size
         )
     }
-
+    
     func image(at index: Int) -> URL? {
         let photo = service.photos[index]
         return URL(string: photo.largeImageURL)
     }
-
+    
     private func formattedDate(_ date: Date?) -> String {
         guard let date = date else { return "" }
         return dateFormatter.string(from: date)

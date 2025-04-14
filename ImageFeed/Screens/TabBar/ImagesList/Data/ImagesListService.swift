@@ -76,13 +76,19 @@ final class ImagesListService {
                 }
                 
                 DispatchQueue.main.async {
+                    let oldCount = self.photos.count
+                    let newCount = oldCount + newPhotos.count
+                    let indexPaths = (oldCount..<newCount).map {
+                        IndexPath(row: $0, section: 0)
+                    }
+
                     self.lastLoadedPage = nextPage
                     self.photos.append(contentsOf: newPhotos)
                     
                     NotificationCenter.default.post(
                         name: ImagesListService.didChangeNotification,
                         object: self,
-                        userInfo: ["photos": self.photos]
+                        userInfo: ["indexPaths": indexPaths]
                     )
                 }
                 

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ImagesListView: AnyObject {
-    func updateImages()
+    func updateImages(indexPaths: [IndexPath])
 }
 
 final class ImagesListViewController: UIViewController, ImagesListView {
@@ -45,8 +45,10 @@ final class ImagesListViewController: UIViewController, ImagesListView {
         }
     }
 
-    func updateImages() {
-        tableView.reloadData()
+    func updateImages(indexPaths: [IndexPath]) {
+        tableView.performBatchUpdates {
+            tableView.insertRows(at: indexPaths, with: .automatic)
+        }
     }
 }
 
