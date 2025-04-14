@@ -9,10 +9,10 @@ import Foundation
 
 struct ProfileResult: Codable {
     let username: String
-    let firstName: String
-    let lastName: String
+    let firstName: String?
+    let lastName: String?
     let bio: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case username
         case firstName = "first_name"
@@ -30,45 +30,47 @@ struct Profile {
 
 final class ProfileService {
     static let shared = ProfileService()
-
+    
     private init() {}
-
-    private (set) var profile: Profile?
+    
+    private(set) var profile: Profile?
     private var task: URLSessionTask?
-
+    
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
-
+        
         task?.cancel()
-
+        
         let request = makeProfileRequest(token: token)
         task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self = self else { return }
-
+            
             switch result {
             case .success(let response):
+                let firstName = response.firstName ?? ""
+                let lastName = response.lastName ?? ""
                 let profile = Profile(
                     username: response.username,
-                    name: "\(response.firstName) \(response.lastName)",
+                    name: "\(firstName) \(lastName)",
                     loginName: "@\(response.username)",
                     bio: response.bio
                 )
-
+                
                 self.profile = profile
                 completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))
             }
         }
-
+        
         task?.resume()
     }
-
+    
     func reset() {
         self.profile = nil
         self.task = nil
     }
-
+    
     private func makeProfileRequest(token: String) -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.unsplash.com/me")!)
         request.httpMethod = "GET"
