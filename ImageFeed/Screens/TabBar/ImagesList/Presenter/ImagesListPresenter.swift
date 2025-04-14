@@ -36,6 +36,17 @@ final class ImagesListPresenter {
                 self?.view?.updateImages(indexPaths: value)
             }
         }
+        
+        NotificationCenter.default.addObserver(
+            forName: ImagesListService.didUpdateNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            if let userInfo = notification.userInfo,
+               let value = userInfo["index"] as? [IndexPath] {
+                self?.view?.reloadImages(indexPaths: value)
+            }
+        }
     }
     
     var imagesCount: Int {
@@ -46,11 +57,12 @@ final class ImagesListPresenter {
         let photo = service.photos[index]
         
         return ImageCellViewModel(
+            id: photo.id,
             image: nil,
             dateText: formattedDate(photo.createdAt),
-            isLiked: photo.isLiked,
             imageURL: URL(string: photo.thumbImageURL),
-            size: photo.size
+            size: photo.size,
+            isLiked: photo.isLiked
         )
     }
     

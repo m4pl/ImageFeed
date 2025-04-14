@@ -8,9 +8,10 @@
 import UIKit
 
 struct ImageCellViewModel {
+    let id: String
     let image: UIImage?
     let dateText: String
-    let isLiked: Bool
     let imageURL: URL?
     let size: CGSize
+    var isLiked: Bool
 }
