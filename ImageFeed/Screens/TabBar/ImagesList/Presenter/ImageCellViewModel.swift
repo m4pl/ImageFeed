@@ -11,4 +11,6 @@ struct ImageCellViewModel {
     let image: UIImage?
     let dateText: String
     let isLiked: Bool
+    let imageURL: URL?
+    let size: CGSize
 }

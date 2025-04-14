@@ -11,48 +11,53 @@ import UIKit
 final class ImagesListPresenter {
 
     private weak var view: ImagesListView?
-
+    private let service = ImagesListService.shared
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
-    
-    private(set) var images: [ImageModel] = []
-    
+
     init(view: ImagesListView) {
         self.view = view
-        loadImages()
+        observePhotoUpdates()
+        service.fetchPhotosNextPage()
     }
 
-    private func loadImages() {
-        images = (0..<20).map {
-            ImageModel(
-                imageName: "\($0)",
-                date: Date(),
-                isLiked: $0 % 2 == 0
-            )
+    private func observePhotoUpdates() {
+        NotificationCenter.default.addObserver(
+            forName: ImagesListService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.view?.updateImages()
         }
-
-        view?.updateImages()
+    }
+    
+    var imagesCount: Int {
+        service.photos.count
     }
 
     func viewModel(for index: Int) -> ImageCellViewModel {
-        let model = images[index]
+        let photo = service.photos[index]
 
         return ImageCellViewModel(
-            image: UIImage(named: model.imageName),
-            dateText: dateFormatter.string(from: model.date),
-            isLiked: model.isLiked
+            image: nil,
+            dateText: formattedDate(photo.createdAt),
+            isLiked: photo.isLiked,
+            imageURL: URL(string: photo.thumbImageURL),
+            size: photo.size
         )
     }
 
-    var imagesCount: Int {
-        images.count
+    func image(at index: Int) -> URL? {
+        let photo = service.photos[index]
+        return URL(string: photo.largeImageURL)
     }
-    
-    func image(at index: Int) -> UIImage? {
-        return UIImage(named: images[index].imageName)
+
+    private func formattedDate(_ date: Date?) -> String {
+        guard let date = date else { return "" }
+        return dateFormatter.string(from: date)
     }
 }

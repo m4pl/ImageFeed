@@ -36,9 +36,10 @@ final class ImagesListViewController: UIViewController, ImagesListView {
                 assertionFailure("Invalid segue destination")
                 return
             }
-            
-            let image = presenter.image(at: indexPath.row)
-            viewController.image = image
+
+            if let imageURL = presenter.image(at: indexPath.row) {
+                viewController.imageURL = imageURL
+            }
         } else {
             super.prepare(for: segue, sender: sender)
         }
@@ -65,13 +66,19 @@ extension ImagesListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == ImagesListService.shared.photos.count {
+            ImagesListService.shared.fetchPhotosNextPage()
+        }
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let image = presenter.viewModel(for: indexPath.row).image ?? UIImage()
+        let viewModel = presenter.viewModel(for: indexPath.row)
         let insets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - insets.left - insets.right
-        let scale = imageViewWidth / image.size.width
+        let scale = imageViewWidth / viewModel.size.width
 
-        return image.size.height * scale + insets.top + insets.bottom
+        return viewModel.size.height * scale + insets.top + insets.bottom
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
