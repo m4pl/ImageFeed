@@ -9,7 +9,7 @@ import Foundation
 
 struct UserResult: Codable {
     let profileImage: ProfileImage
-    
+
     enum CodingKeys: String, CodingKey {
         case profileImage = "profile_image"
     }
@@ -25,13 +25,18 @@ final class ProfileImageService {
 
     private init() {}
 
-    static let didChangeNotification = Notification.Name("ProfileImageProviderDidChange")
-    
-    private (set) var avatarURL: String?
+    static let didChangeNotification = Notification.Name(
+        "ProfileImageProviderDidChange"
+    )
+
+    private(set) var avatarURL: String?
     private var task: URLSessionTask?
     private var lastUsername: String?
 
-    func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchProfileImageURL(
+        username: String,
+        _ completion: @escaping (Result<String, Error>) -> Void
+    ) {
         assert(Thread.isMainThread)
 
         guard lastUsername != username else { return }
@@ -39,12 +44,15 @@ final class ProfileImageService {
         lastUsername = username
 
         guard let request = makeUserRequest(username: username) else {
-            print("Error: Failed to create URLRequest from username: \(username)")
+            print(
+                "Error: Failed to create URLRequest from username: \(username)"
+            )
             completion(.failure(NetworkError.urlSessionError))
             return
         }
 
-        task = URLSession.shared.objectTask(for: request) {  [weak self] (result: Result<UserResult, Error>) in
+        task = URLSession.shared.objectTask(for: request) {
+            [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
 
             switch result {
@@ -65,9 +73,17 @@ final class ProfileImageService {
 
         task?.resume()
     }
-    
+
+    func reset() {
+        self.avatarURL = nil
+        self.task = nil
+        self.lastUsername = nil
+    }
+
     private func makeUserRequest(username: String) -> URLRequest? {
-        var request = URLRequest(url: URL(string: "https://api.unsplash.com/users/\(username)")!)
+        var request = URLRequest(
+            url: URL(string: "https://api.unsplash.com/users/\(username)")!
+        )
 
         guard let token = Oauth2TokenStorage.shared.token else {
             return nil

@@ -10,12 +10,6 @@ import Kingfisher
 
 final class ProfileViewController: UIViewController {
 
-    var avatarImage: UIImage? {
-        didSet {
-            avatarImageView.image = avatarImage
-        }
-    }
-
     var nameText: String = "" {
         didSet {
             nameLabel.text = nameText
@@ -78,6 +72,8 @@ final class ProfileViewController: UIViewController {
         label.textColor = .white
         return label
     }()
+
+    private var animationLayers = Set<CALayer>()
 
     private var profileImageServiceObserver: NSObjectProtocol?
 
@@ -171,6 +167,45 @@ final class ProfileViewController: UIViewController {
                 constant: -16
             ),
         ])
+
+        addGradientAnimation(to: avatarImageView, cornerRadius: avatarImageView.frame.height / 2)
+        addGradientAnimation(to: nameLabel, cornerRadius: 4)
+        addGradientAnimation(to: loginNameLabel, cornerRadius: 4)
+        addGradientAnimation(to: descriptionLabel, cornerRadius: 4)
+    }
+
+    private func removeAllGradientAnimations() {
+        for layer in animationLayers {
+            layer.removeAllAnimations()
+            layer.removeFromSuperlayer()
+        }
+        animationLayers.removeAll()
+    }
+
+    private func addGradientAnimation(to view: UIView, cornerRadius: CGFloat) {
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.colors = [
+            UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,
+            UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor,
+            UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+        gradient.cornerRadius = cornerRadius
+        gradient.masksToBounds = true
+
+        let animation = CABasicAnimation(keyPath: "locations")
+        animation.duration = 1.0
+        animation.repeatCount = .infinity
+        animation.fromValue = [0, 0.1, 0.3]
+        animation.toValue = [0, 0.8, 1]
+
+        gradient.add(animation, forKey: "locationsChange")
+
+        view.layer.addSublayer(gradient)
+        animationLayers.insert(gradient)
     }
 
     private func updateProfileDetails() {
@@ -197,9 +232,25 @@ final class ProfileViewController: UIViewController {
         else { return }
         
         avatarImageView.kf.setImage(with: url)
+        removeAllGradientAnimations()
     }
 
     @objc private func logoutButtonTapped(_ sender: UIButton) {
-        print("Logout tapped")
+        logout()
+    }
+ 
+    private func logout() {
+        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены, что хотите выйти?", preferredStyle: .alert)
+
+        let logoutAction = UIAlertAction(title: "Да", style: .default) { _ in
+            ProfileLogoutService.shared.logout()
+        }
+
+        let cancelAction = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
+        
+        alert.addAction(logoutAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }

@@ -9,35 +9,45 @@ import UIKit
 
 final class SingleImageViewController: UIViewController {
 
-    var image: UIImage? {
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-        }
-    }
+    var imageURL: URL?
 
-    @IBOutlet private var scrollView: UIScrollView!
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var imageView: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        imageView.image = image
-        scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
-        
-        guard let image else { return }
-        imageView.image = image
-        imageView.frame.size = image.size
-        rescaleAndCenterImageInScrollView(image: image)
+        scrollView.minimumZoomScale = Constants.minimumZoomScale
+        scrollView.maximumZoomScale = Constants.maximumZoomScale
+        loadImage()
     }
-    
+
+    private func loadImage() {
+        guard let imageURL else { return }
+
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: imageURL) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+
+            guard let self else { return }
+
+            switch result {
+            case .success(let value):
+                self.imageView.frame.size = value.image.size
+                self.rescaleAndCenterImageInScrollView(image: value.image)
+            case .failure:
+                showError()
+            }
+        }
+    }
+
     @IBAction private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func didTapShareButton(_ sender: UIButton) {
-        guard let image else { return }
+    @IBAction private func didTapShareButton(_ sender: UIButton) {
+        guard let image = imageView.image else { return }
+
         let share = UIActivityViewController(
             activityItems: [image],
             applicationActivities: nil
@@ -61,6 +71,30 @@ final class SingleImageViewController: UIViewController {
 
         updateInsetsForCenteredImage()
     }
+
+    private func showError() {
+        let alert = UIAlertController(
+            title: "Ошибка",
+            message: "Что-то пошло не так. Попробовать ещё раз?",
+            preferredStyle: .alert
+        )
+
+        let cancelAction = UIAlertAction(
+            title: "Не надо",
+            style: .cancel,
+            handler: nil
+        )
+
+        let retryAction = UIAlertAction(title: "Повторить", style: .default) {
+            [weak self] _ in
+            self?.loadImage()
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(retryAction)
+
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 extension SingleImageViewController: UIScrollViewDelegate {
@@ -77,8 +111,14 @@ extension SingleImageViewController: UIScrollViewDelegate {
         let imageViewSize = imageView.frame.size
         let scrollViewSize = scrollView.bounds.size
 
-        let verticalInset = max(0, (scrollViewSize.height - imageViewSize.height) / 2)
-        let horizontalInset = max(0, (scrollViewSize.width - imageViewSize.width) / 2)
+        let verticalInset = max(
+            0,
+            (scrollViewSize.height - imageViewSize.height) / 2
+        )
+        let horizontalInset = max(
+            0,
+            (scrollViewSize.width - imageViewSize.width) / 2
+        )
 
         scrollView.contentInset = UIEdgeInsets(
             top: verticalInset,
@@ -86,5 +126,10 @@ extension SingleImageViewController: UIScrollViewDelegate {
             bottom: verticalInset,
             right: horizontalInset
         )
+    }
+
+    private enum Constants {
+        static let minimumZoomScale: CGFloat = 0.1
+        static let maximumZoomScale: CGFloat = 1.25
     }
 }
