@@ -123,6 +123,7 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7EO-9t-hzR" userLabel="Back Button">
                                 <rect key="frame" x="8" y="67" width="48" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Back"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="PFv-cW-Tcn"/>
                                     <constraint firstAttribute="width" constant="48" id="dlm-UW-iLU"/>
@@ -209,7 +210,7 @@
         <!--Web View View Controller-->
         <scene sceneID="obd-fa-LGc">
             <objects>
-                <viewController id="SId-Zg-c7g" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="SId-Zg-c7g" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9OB-DE-k0F">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
