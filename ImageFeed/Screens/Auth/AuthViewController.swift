@@ -36,6 +36,7 @@ final class AuthViewController: UIViewController {
             action: #selector(loginButtonTapped),
             for: .touchUpInside
         )
+        button.accessibilityIdentifier = "Authenticate"
         return button
     }()
 
@@ -89,12 +90,17 @@ final class AuthViewController: UIViewController {
             ),
         ])
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowWebViewSegueIdentifier {
-            guard
-                let webViewViewController = segue.destination as? WebViewViewController
-            else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
+            guard let webViewViewController = segue.destination as? WebViewViewController else {
+                assertionFailure("Failed to prepare for \(ShowWebViewSegueIdentifier)")
+                return
+            }
+            let helper = AuthHelper()
+            let presenter = WebViewPresenter(authHelper: helper)
+            webViewViewController.presenter = presenter
+            presenter.view = webViewViewController
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)

@@ -36,6 +36,7 @@ final class ImagesListCell: UITableViewCell {
                 isLiked
                 ? Constants.likeButtonOnImage : Constants.likeButtonOffImage
             likeButton.setImage(UIImage(named: imageName), for: .normal)
+            likeButton.accessibilityIdentifier = imageName
         }
     }
 

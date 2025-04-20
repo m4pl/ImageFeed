@@ -46,6 +46,7 @@ final class ProfileViewController: UIViewController {
             action: #selector(logoutButtonTapped),
             for: .touchUpInside
         )
+        button.accessibilityIdentifier = "Logout"
         return button
     }()
 
@@ -54,6 +55,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 23, weight: .semibold)
         label.textColor = .white
+        label.accessibilityIdentifier = "ProfileName"
         return label
     }()
 
@@ -62,6 +64,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 13)
         label.textColor = UIColor.YPGray
+        label.accessibilityIdentifier = "ProfileLogin"
         return label
     }()
 
@@ -70,6 +73,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 13)
         label.textColor = .white
+        label.accessibilityIdentifier = "ProfileDescription"
         return label
     }()
 
